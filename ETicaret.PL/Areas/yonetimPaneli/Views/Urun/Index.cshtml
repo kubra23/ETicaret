@@ -1,0 +1,112 @@
+﻿@model List<UrunListeleVM>
+
+<partial name="~/Areas/yonetimPaneli/Views/Partials/SonucMesajlari.cshtml" />
+
+<div id=" divMesaj" style="display:none;" class="alert alert-success" role="alert">
+
+</div>
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">Ürün Adı</th>
+                    <th scope="col">Kategori</th>
+                    <th scope="col">Marka</th>
+                    <th scope="col">Stok Adet</th>
+                    <th scope="col">Fiyat</th>
+                    <th scope="col">Üretim Tarihi</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="7"><a class="btn btn-primary" asp-action="Ekle" asp-controller="Urun" style="margin-bottom:10px;width:100%;">Ürün Ekle</a></td>
+                </tr>
+                @foreach (var urun in Model)
+                {
+                    <tr>
+                        <td>@urun.Adi</td>
+                        <td>@urun.KategoriAdi</td>
+                        <td>@urun.MarkaAdi</td>
+                        <td>@urun.StokAdet</td>
+                        <td>@urun.Fiyat.ToString("C2")</td>
+                        <td>@urun.UretimTarihi.ToString("dd/MM/yyyy")</td>
+                        <td width="230px">
+                            <a class="btn btn-warning"><img class="vitrinAta" data-id="@urun.Id" data-toggle="modal" data-target="#vitrinAta" src="~/icons/images.png" width="25" height="25"/></a>
+                            <a class="btn btn-warning" asp-action="Ekle" asp-controller="Urun" asp-route-id="@urun.Id">Düzenle</a>
+
+                            <a class="btn btn-danger" asp-action="Sil" asp-controller="Urun" asp-route-id="@urun.Id">Sil</a>
+                        </td>
+                    </tr>
+
+                  }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="modal fade" id="vitrinAta" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modelUrunAdi">VİTRİN RESMİ</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!-- #region ESAS ALAN -->
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row" id="modelResimler">
+
+                    </div>
+                </div>
+            </div>
+            <!-- #endregion -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnIptal">İptal</button>
+                <button type="button" class="btn btn-primary" id="btnVitrinOlarakAyarla">Vitrin Olarak Ayarla</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#vitrinAta').on('shown.bs.modal', function () {
+        $('#myInput').trigger('focus')
+    })
+    let urunId = -1;
+    $(".vitrinAta").click(function () {
+        urunId = $(this).data("id");
+        $.get("https://localhost:5001/yonetim-paneli/urun/UrunBilgileriDondur/" + urunId, (data) => {
+            console.log(data)
+            $("#modelUrunAdi").html(data.urunAdi)
+            let html = '';
+            $.each(data.resimler, (index, value) => {
+                html += '<div class="col-md-4" style="margin-top:5px;text-align:center;">';
+                html += '<img src="/dosyalar/resimler/' + value.resimAdi + '" width="100" height="100" />';
+                html += '       <br />'
+                html += '   <input type="radio" name="resim" value="' + value.id + '"' + (value.vitrin ? 'checked' : '') + '  />'
+                html += '</div>'
+            });
+            $("#modelResimler").html(html);
+        });
+    });
+
+    $("#btnVitrinOlarakAyarla").click(() => {
+        //alert($("input[name=resim]:checked","#modelResimler").val());
+        let vitrinResimId = $("input[name=resim]:checked").val();
+        $.get("https://localhost:5001/yonetim-paneli/urunvitrindegistir/" + urunId + "/" + vitrinResimId, data => {
+            $("#divMesaj").html(data);
+            $("#divMesaj").fadeIn(1500, () => {
+                $("#divMesaj").fadeOut(1500);
+            });
+            $("#btnIptal").trigger("click");
+        })
+    })
+</script>

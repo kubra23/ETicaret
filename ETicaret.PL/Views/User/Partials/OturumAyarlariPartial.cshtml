@@ -1,0 +1,40 @@
+﻿@model TwoFactorTypeSelectVM
+
+    <form class="was-validated" asp-action="Sec" asp-controller="TwoFactorAuthentication" method="post">
+
+
+        <div class="custom-control custom-checkbox mb-3 tfnesnesi">
+            <input asp-for="TwoFactorEnabled" type="checkbox" class="custom-control-input tfnesnesi" id="twoFactorAuthentication" required>
+            <label class="custom-control-label tfnesnesi" for="twoFactorAuthentication">Çok Adımlı Doğrulama</label>
+            <div class="invalid-feedback">Tek adımlı doğrulama geçerlidir.</div>
+        </div>
+        @if (Model.TwoFactorType==TwoFactorType.Authenticator)
+        {
+           <div class="custom-control custom-checkbox mb-3">
+               <a class="btn btn-success"asp-action="KurtarmaKoduUret" asp-controller="User">Kurtarma Kodu Üret</a>
+               @if (TempData["KurtarmaKodlari"] != null)
+               {
+                 <div class="input-group-prepend">
+                     <label class="input-group-text" for="twoFactorSecenekler">
+                         @TempData["KurtarmaKodlari"]
+                     </label>
+                 </div>
+
+               }
+           </div>
+
+        }
+        <div class="mb-3" id="secenekler" @(!Model.TwoFactorEnabled ? "style=display:none;\"":"")>
+            <div class="input-group is-invalid">
+
+                <select asp-for="TwoFactorType" class="custom-select" id="towFactorSecenekler" required asp-items="Html.GetEnumSelectList<TwoFactorType>()">
+                    @*<option value="">Choose...</option>
+                    <option value="1">Microsoft & Google Authenticator İle Doğrulama</option>
+                    <option value="2">SMS İle Doğrulama</option>
+                    <option value="3">Email İle Doğrulama</option>*@
+                </select>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-danger">Seç</button>
+    </form>

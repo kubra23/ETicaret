@@ -1,0 +1,30 @@
+﻿@model List<KategoriListeleVM>
+    <partial name="~/Areas/yonetimPaneli/Views/Partials/SonucMesajlari.cshtml" />
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Kategori Adı</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="2"><a class="btn btn-primary" asp-action="Ekle" asp-controller="Kategori" style="margin-bottom:10px;width:100%;">Kategori Ekle</a></td>
+                    </tr>
+                    @foreach (var kategori in Model)
+                    {
+                        <tr>
+                            <td>@kategori.KategoriAdi</td>
+                            <td>
+                                <a class="btn btn-warning" asp-action="Duzenle" asp-controller="Kategori" asp-route-id="@kategori.Id">Düzenle</a>
+                                <a asp-action="Sil" asp-controller="Kategori" asp-route-id="@kategori.Id" class="btn btn-danger">Sil</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>

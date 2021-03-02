@@ -1,0 +1,11 @@
+﻿@model AppRoleEkleVM
+
+    <form asp-action="RoleEkle" asp-controller="Role" method="post">
+        <div class="form-group">
+            <label>Rol Adı</label>
+            <input type="text" class="form-control" asp-for="Name">
+            <small class="form-text text-muted"><span asp-validation-for="Name" style="color:red;"></span></small>
+        </div>
+        <button type="submit" class="btn btn-primary">Rol Ekle</button>
+    </form>
+

@@ -1,0 +1,37 @@
+﻿@model AuthenticatorVM
+<script src="~/qrcode.min.js"></script>
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6"><partial name="~/Views/Partials/SonucMesajlariPartial.cshtml" /></div>
+    <div class="col-md-3"></div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <h3>Shared Key</h3>
+        <span style="color:red;">@Model.SharedKey</span>
+    </div>
+    <div class="col-md-6">
+        <form asp-action="AuthenticatorVerify" asp-controller="TwoFactorAuthentication" method="post">
+            <div>
+                <div id="qrcode"></div>
+                <script type="text/javascript">
+            new QRCode(document.getElementById("qrcode"), {
+                text:'@Model.QrCodeUri',
+                width: 250,
+                height: 250,
+                correctLevel: QRCode.CorrectLevel.H
+            });
+                </script>
+            </div>
+            <input type="hidden" asp-for="QrCodeUri" />
+            <input type="hidden" asp-for="SharedKey"/>
+            <div class="form-group">
+                <label>Doğrulama Kodu</label>
+                <input asp-for="VerificationCode" type="text" class="form-control" placeholder="Doğrulama Kodu">
+                <small class="form-text text-muted"><span asp-validation-for="VerificationCode" style="color:red;"></span></small>
+            </div>
+            <button type="submit" class="btn btn-primary">Doğrula</button>
+        </form>
+    </div>
+    <div class="col-md-3"></div>
+</div>

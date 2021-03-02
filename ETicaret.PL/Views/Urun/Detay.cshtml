@@ -1,0 +1,87 @@
+﻿@model Urun
+<div class="row">
+    <div class="col-4">
+        <div class="list-group" id="list-tab" role="tablist">
+            <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Ürün Detay</a>
+            <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Ürün Resimleri</a>
+        </div>
+        <a class="btn btn-info btnUrunSepeteEkle" style="float:right; margin-top:5px;" data-id="@Model.Id">Sepete Ekle</a>
+    </div>
+    <div class="col-8">
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td><strong>Adı</strong></td>
+                            <td>@Model.UrunAdi</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Fiyat</strong></td>
+                            <td>@Model.Fiyat.ToString("C2")</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Marka</strong></td>
+                            <td>@Model.Marka.MarkaAdi</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kategori</strong></td>
+                            <td>@Model.Kategori.KategoriAdi</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Stok Adet</strong></td>
+                            <td>@Model.StokAdet</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Üretim Tarihi</strong></td>
+                            <td>@Model.UretimTarihi.ToString("dd/MM/yyyy")</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
+                <div class="row">
+                    @foreach (var resim in Model.Resimler)
+                    {
+                        <div class="col-md-4" style="margin-top:5px;">
+                            <div class="card" style="width: 18rem;">
+                                <img src="~/dosyalar/resimler/@resim.ResimAdi" width="286" height="180" class="card-img-top">
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-4">
+
+    </div>
+    <div class="col-8">
+        <partial name="~/Views/Urun/Partials/YorumEklePartial.cshtml" model="new YorumEkleVM()"/>
+        <partial name="~/Views/Urun/Partials/YorumListelePartial.cshtml" model="Model.Yorumlar"/>
+    </div>
+</div>
+
+@section script{ 
+<script>
+    let count = 0;
+    $("#btnYorumYap").click(() => {
+        if (count % 2 == 0)
+            $("#frmYorum").show(500);
+        else
+            $("#frmYorum").hide(500);
+        count++;
+    });
+
+    $(document).ready(() => {
+        setTimeout(() => {
+            $("#sonucMesaj").hide(500);
+        }, 5000);
+    });
+
+</script>
+}
+

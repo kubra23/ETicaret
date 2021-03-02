@@ -1,0 +1,24 @@
+﻿@model List<UrunAnasayfaListeleVM>
+
+@{ 
+    Layout = "~/Views/Shared/UrunLayout/_UrunLayout.cshtml";
+}
+    <h1>@ViewBag.KategoriAdi</h1>
+  
+    <div class="row">
+        @foreach (var urun in Model)
+        {
+            <div class="col-md-3" style="margin-top:5px;">
+                <div class="card" style="width: 18rem;">
+                    <img src="~/dosyalar/resimler/@urun.VitrinResmi" class="card-img-top" width="286" height="174">
+                    <div class="card-body">
+                        <strong class="card-title">@urun.Adi</strong>
+                        <p class="card-text"><span style="color:orange;"><strong>Marka</strong> : @urun.MarkaAdi <br /> <strong>Kategori</strong> : @urun.KategoriAdi</span></p>
+                        <a class="btn btn-primary" asp-action="Detay" asp-controller="Urun" asp-route-id="@urun.Id">Detaya Git</a>
+                        <a class="btn btn-info btnUrunSepeteEkle" data-id="@urun.Id"> Sepete Ekle</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+ 

@@ -1,0 +1,82 @@
+﻿@if (User.Identity.IsAuthenticated)
+{
+    <div class="card" style="width: 400px;margin-top:10px;margin-left:20px;">
+        <div class="card-body">
+            <h5 class="card-title">Sepet</h5>
+            <p id="bosMesaj" style="display:none;" class="card-text">Sepet boş.</p>
+        </div>
+        <ul class="list-group list-group-flush" style="display:none;" id="sepetListe">
+            @*<li class="list-group-item">
+                    <img style="cursor:pointer;" src="~/pasif.png" />Cras justo odio <span style="margin-left:5px;color:red;float:right;">100 ₺</span> <input type="number" style="width:50px;float:right;" value="1" min="1" max="999" />
+                </li>*@
+        </ul>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6"></div>
+                <div class="col-md-6">
+                    <strong>Toplam</strong> : <span style="color:red;"><span id="toplamFiyat"></span> ₺</span>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <a href="#" class="card-link btn btn-success">Alışverişi Tamamla</a>
+            <a href="#" class="card-link btn btn-danger">İptal</a>
+        </div>
+    </div>
+}
+<script>
+    $(document).ready(() => {
+        $.get('@Url.Action("SepetGetir","Sepet")', data => {
+            console.log(data)
+            if (data.urunler.length == 0) {
+                $("#bosMesaj").fadeIn(2000);
+
+            }
+            else {
+                let sepetUrun = "";
+                let toplamFiyat = 0;
+                $.each(data.urunler, (index, value) => {
+                    sepetUrun += "<li class=\"list-group-item\" id=\"sepetUrun-" + value.urunId + "\">";
+                    sepetUrun += "<img style=\"cursor:pointer;\" src=\"/pasif.png\" onclick=\"Sil(" + value.urunId + ")\"/>";
+                    sepetUrun += value.adi;
+                    sepetUrun += "<input id=\"urun-" + value.urunId + "\" type=\"number\" style=\"width:50px;float:rigth;\"  value=\"" + value.adet + "\" min=\"1\" max=\"" + value.stokAdet + "\"/><span style=\"margin-left:5px;color:red;float:right;\">";
+                    sepetUrun += value.fiyat;
+                    sepetUrun += "₺</span>";
+                    sepetUrun += "</li>";
+                    toplamFiyat += value.fiyat * value.adet;
+                });
+                $("#sepetListe").html(sepetUrun);
+                $("#sepetListe").fadeIn(2000, () => $("#toplamFiyat").html(toplamFiyat));
+            }
+        });
+    })
+
+    function Sil(urunId) {
+        $.get('@Url.Action("Sil","Sepet")/' + urunId, data => {
+            $("#sepetUrun-" + urunId).hide(500, () => {
+                $("#sepetUrun-" + urunId).remove();
+                $("#toplamFiyat").html(data)
+                if (data == 0) {
+                    $("#bosMesaj").css("display", "inline");
+                    $("#sepetListe").css("display", "none");
+
+                }
+            });
+
+        });
+    }
+    $("body").on("change", ".txtAdet", function () {
+        let urunId = $(this).data("id");
+        let adet = this.val();
+        $.get('@Url.Action("AdetDegistir","Sepet")/' + urunId + '?adet=' + adet, function (data) {
+            if (data != null) {
+                $("#toplamFiyat").html(data)
+            }
+            else {
+                alert("Beklenmeyen bir hatayla karşılaşıldı.");
+            }
+        });
+        console.log(urunId, adet)
+    });
+
+</script>

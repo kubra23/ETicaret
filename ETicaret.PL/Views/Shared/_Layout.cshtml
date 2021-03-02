@@ -1,0 +1,117 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>E-Ticaret</title>
+    <link href="~/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/jquery/jquery.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light ">
+        <a class="navbar-brand" asp-action="Index" asp-controller="Home">E-Ticaret</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" asp-action="Index" asp-controller="Home">Anasayfa <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-action="Index" asp-controller="Urun" asp-route-kategoriId="">Ürünler</a>
+                </li>
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="KayitOl" asp-controller="User">Kayıt Ol</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="SignIn" asp-controller="User">Giriş Yap</a>
+                    </li>
+
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="Logout" asp-controller="User" style="color:red;">Çıkış Yap</a>
+                    </li>
+                }
+            </ul>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <form class="form-inline my-2 my-lg-0" style="margin-right:5px;">
+                    @User.Identity.Name hoşgeldiniz
+                </form>
+                <form class="form-inline my-2 my-lg-0">
+                    <a class="btn btn-outline-info my-2 my-sm-0" asp-action="Index" asp-controller="Home" asp-area="yonetimPaneli">Yönetim Paneli</a>
+                </form>
+                <form class="form-inline my-2 my-lg-0" style="margin-right:5px;">
+                    <a class="btn btn-outline-danger my-2 my-sm-0" asp-action="ProfilAyarlari" asp-controller="User">Profil Ayarları</a>
+                </form>
+
+            }
+
+            <form class="form-inline my-2 my-lg-0" style="margin-left:5px;">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-light my-2 my-sm-0 " type="submit">ARA</button>
+            </form>
+        </div>
+    </nav>
+    <div class="row">
+        <div class="col-md-9">
+            @RenderBody()
+        </div>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="col-md-3">
+                <partial name="~/Views/Shared/Partials/SepetPartial.cshtml" />
+            </div>
+        }
+    </div>
+    <script src="~/twitter-bootstrap/js/bootstrap.min.js"></script>
+
+    @RenderSection("script", false)
+    @if (User.Identity.IsAuthenticated)
+    {
+        string controller = ViewContext.RouteData.Values["controller"].ToString();
+        string action = ViewContext.RouteData.Values["action"].ToString();
+        if (controller == "Urun" && (action == "Index" || action == "Detay"))
+        {
+            <script>
+    $(".btnUrunSepeteEkle").click(function () {
+        $.get('@Url.Action("UrunEkle", "Sepet")/' + $(this).data("id"), data => {
+            debugger;
+              console.log(data)
+            let urun = $("#urun-" + data.id);
+              if (urun[0] != null) {
+                $("#urun-" + data.id).val(data.adet)
+              } else {
+                  let sepetUrun = "";
+                  sepetUrun += "<li class=\"list-group-item\" style=\"display: none;\" id=\"sepeturun-" + data.id + "\">";
+                  sepetUrun += "<img style=\"cursor:pointer;\" src=\"/pasif.png\" onclick=\"Sil(" + data.id + ")\" />";
+                  sepetUrun += data.urunAdi;
+                  sepetUrun += "<input data-id=\"" + data.id + "\" class=\"txtAdet\" id=\"urun-" + data.id + "\" type=\"number\" style=\"width: 50px; float: right; \" value=\"" + data.adet + "\" min=\"1\" max=\"" + data.stokAdet + "\" /><span style=\"margin-left:5px;color:red;float:right;\">";
+                  sepetUrun += data.fiyat;
+                  sepetUrun += "₺</span>";
+                  sepetUrun += "</li>";
+
+                $("#sepetListe").append(sepetUrun);
+                $("#sepeturun-" + data.id).show(500);
+
+                $("#bosMesaj").css("display", "none");
+                $("#sepetListe").css("display", "inline");
+              }
+              debugger;
+              let toplamFiyat = $("#toplamFiyat").html();
+              if (toplamFiyat == "")
+                  toplamFiyat = "0";
+            $("#toplamFiyat").html(parseInt(toplamFiyat) + parseInt(data.fiyat));
+          })
+        });
+            </script>
+        }
+
+    }
+
+</body>
+</html>
+

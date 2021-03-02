@@ -1,0 +1,15 @@
+﻿@if (TempData["BasariDurumu"] != null)
+{
+    if ((bool)TempData["BasariDurumu"])
+    {
+        <div class="alert alert-success" role="alert">
+            @TempData["Mesaj"]
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-danger" role="alert">
+            @TempData["Mesaj"]
+        </div>
+    }
+}

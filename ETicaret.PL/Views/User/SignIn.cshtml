@@ -1,0 +1,33 @@
+﻿@model AppUserLoginVM
+
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6"><partial name="~/Views/Partials/SonucMesajlariPartial.cshtml" /></div>
+    <div class="col-md-3"></div>
+</div>
+<div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <form asp-action="SignIn" asp-controller="User" method="post">
+                <a asp-action="ExternalLogin" asp-controller="User" asp-route-providerName="Facebook">
+                    <img src="~/icons/facebook.jpg" width="250" height="60" />
+                </a>
+                <a asp-action="ExternalLogin" asp-controller="User" asp-route-providerName="Google">
+                    <img src="~/icons/google.png" width="250" height="40" />
+                </a>
+                <div class="form-group">
+                    <label>Username&Email</label>
+                    <input type="text" class="form-control" asp-for="UsernameorEmail"   placeholder="Username & Email">
+                    <small class="form-text text-muted"><span style="color:red;" asp-validation-for="UsernameorEmail"></span></small>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" asp-for="Password" placeholder="Password">
+                    <small class="form-text text-muted"><span style="color:red;" asp-validation-for="Password"></span></small>
+                </div>
+                <button type="submit" class="btn btn-primary">Giriş Yap</button>
+                <a class="btn btn-outline-warning" asp-action="SifreTalebi" asp-controller="User">Şifremi Unuttum</a>
+            </form>
+        </div>
+        <div class="col-md-3"></div>
+    </div>

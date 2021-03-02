@@ -1,0 +1,40 @@
+﻿@model ETicaret.Models.index.iModel
+
+@{
+    ViewBag.Title = "Index";
+    List<ETicaret.DB.Categories> categories = new List<ETicaret.DB.Categories>();
+
+    if(Model.Category != null)
+    {
+        categories.Add(Model.Category);
+        var parentcat = Model.Category.Categories2;
+        while(parentcat != null)
+        {
+            categories.Add(parentcat);
+            parentcat = parentcat.Categories2;
+        }
+    }
+}        
+    <div class="row">
+        <div class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="@Url.Action("Index","index")">Ana Sayfa</a></li>
+                @foreach (var cat in categories)
+                {
+                    <li><a href="@Url.Action("Index","index",new {id=cat.Id })">cat.Name</a></li>
+
+
+                }
+                @*<li class="active">Bilgisayar</li>*@
+            </ol>
+        </div>
+    </div>
+    <div class="row">
+        @foreach (var item in Model.Products)
+        {
+            @Html.Partial("ProductItem", item);
+        }
+
+
+    </div>
+

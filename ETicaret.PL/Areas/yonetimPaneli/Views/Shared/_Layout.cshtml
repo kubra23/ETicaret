@@ -1,0 +1,40 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>ETicaret - Yönetim Paneli</title>
+    <link href="~/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/jquery/jquery.min.js"></script>
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-3">
+            <ul class="list-group" style="margin-top:10px;margin-left:5px;">
+                <li class="list-group-item badge badge-pill badge-success active"><a asp-action="Index" asp-controller="Home" style="color:black;" asp-area="">Anasayfa</a></li>
+                <li class="list-group-item badge badge-pill badge-success"><a asp-action="Index" asp-controller="Kategori" style="color:black;">Kategoriler</a></li>
+                <li class="list-group-item badge badge-pill badge-success"><a href="#" style="color:black;">Markalar</a></li>
+                <li class="list-group-item badge badge-pill badge-success"><a asp-action="Index" asp-controller="Urun" style="color:black;">Ürünler</a></li>
+                <li class="list-group-item badge badge-pill badge-success"><a asp-action="Index" asp-controller="Yorum" style="color:black;">Yorumlar</a></li>
+                <li class="list-group-item badge badge-pill badge-success"><a href="#" style="color:black;">Siparişler</a></li>
+                <li class="list-group-item badge badge-pill badge-success"><a asp-action="Index" asp-controller="User" style="color:black;">Yetkilendirme</a></li>
+                <li class="list-group-item badge badge-pill badge-success"><a asp-action="Index" asp-controller="Role" style="color:black;">Roller</a></li>
+               
+            </ul>
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-12"></div>
+            </div>
+            @RenderBody()
+        </div>
+        <div class="col-md-1">
+            <form class="form-inline my-2 my-lg-0">
+                <a class="btn btn-outline-info my-2 my-sm-0" asp-action="Index" asp-controller="Home" asp-area="">Siteye Git</a>
+            </form>
+            <form class="form-inline my-2 my-lg-0">
+                <a class="btn btn-outline-danger my-2 my-sm-0" asp-action="Logout" asp-controller="User" asp-area="">Çıkış Yap</a>
+            </form>
+        </div>
+    </div>
+    <script src="~/twitter-bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>
+

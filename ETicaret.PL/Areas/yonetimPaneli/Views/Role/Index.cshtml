@@ -1,0 +1,30 @@
+﻿@model List<AppRoleListeVM>
+<partial name="~/Areas/yonetimPaneli/Views/Partials/SonucMesajlari.cshtml"/>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">Rol Adı</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="2"><a class="btn btn-primary" asp-action="RoleEkle" asp-controller="Role" style="margin-bottom:10px;width:100%;">Rol Ekle</a></td>
+                </tr>
+                @foreach (var rol in Model)
+                {
+                    <tr>
+                        <td>@rol.Name</td>
+                        <td>
+                            <a class="btn btn-warning" asp-action="Duzenle" asp-controller="Role" asp-route-id="@rol.Id">Düzenle</a>
+                            <a asp-action="Sil" asp-controller="Role" asp-route-id="@rol.Id" class="btn btn-danger">Sil</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

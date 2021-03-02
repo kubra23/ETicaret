@@ -1,0 +1,26 @@
+﻿@model TwoFactorLoginVM
+
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6"><partial name="~/Views/Partials/SonucMesajlariPartial.cshtml" /></div>
+    <div class="col-md-3"></div>
+</div>
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <form asp-action="TwoFactorAuthentication" asp-controller="User" method="post">
+            <div class="form-group">
+                <label>Doğrulama Kodu</label>
+                <input type="text" class="form-control" asp-for="DogrulamaKodu" placeholder="Doğrulama Kodu">
+                <small class="form-text text-muted"><span style="color:red;" asp-validation-for="DogrulamaKodu"></span></small>
+            </div>
+            <div class="form-group">
+                <label>Kurtarma Kodu Dene</label>
+                <input type="checkbox" class="form-control" asp-for="KurtarmaKodumu">
+            </div>
+            <button type="submit" class="btn btn-primary">Doğrula</button>
+        </form>
+    </div>
+    <div class="col-md-3"></div>
+</div>
+

@@ -1,0 +1,26 @@
+﻿@model AppUserSifreGuncelleVM
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6"><partial name="~/Views/Partials/SonucMesajlariPartial.cshtml" /></div>
+        <div class="col-md-3"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <form asp-action="SifreGuncelle" asp-controller="User" method="post">
+                <div class="form-group">
+                    <label>Yeni Şifre</label>
+                    <input type="password" class="form-control" asp-for="Sifre" placeholder="Yeni Şifre">
+                    <small class="form-text text-muted"><span style="color:red;" asp-validation-for="Sifre"></span></small>
+                </div>
+                <div class="form-group">
+                    <label>Yeni Şifre Tekrar</label>
+                    <input type="password" class="form-control" asp-for="YeniSifre" placeholder="Yeni Şifre Tekrar">
+                    <small class="form-text text-muted"><span style="color:red;" asp-validation-for="YeniSifre"></span></small>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Şifreyi Güncelle</button>
+            </form>
+        </div>
+        <div class="col-md-3"></div>
+    </div>

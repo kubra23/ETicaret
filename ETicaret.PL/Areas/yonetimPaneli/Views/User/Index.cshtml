@@ -1,0 +1,49 @@
+﻿@model List<AppUserListeleVM>
+<partial name="~/Areas/yonetimPaneli/Views/Partials/SonucMesajlari.cshtml" />
+<div class="row">
+    <div class="col-md-12">
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">Username</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Roller</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>@user.Username</td>
+                        <td>@user.Email</td>
+                        <td>
+                            @{ 
+                                List<string> turler = new List<string>
+                                {
+                                    "primary",
+                                    "secondary",
+                                    "success",
+                                    "danger",
+                                    "warning",
+                                    "info",
+                                    "light",
+                                    "dark"
+                                };
+                             }
+                            @foreach(var rol in user.Roller)
+                            {
+                                <span class="badge badge-pill badge-@turler">@rol</span> 
+                            }
+                        </td>
+                        <td width="300px">
+                            <a class="btn btn-info" asp-controller="User" asp-action="RoleAta" asp-route-id="@user.Id">Rol Ata</a>
+                            <a class="btn btn-warning" asp-controller="User" asp-route-id="@user.Id">Düzenle</a>
+                            <a asp-action="Sil" asp-controller="User" class="btn btn-danger" asp-route-id="@user.Id">Sil</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

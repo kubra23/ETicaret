@@ -1,0 +1,28 @@
+﻿@model YorumEkleVM
+    <div id="sonucMesaj">
+        <partial name="~/Views/Partials/SonucMesajlariPartial.cshtml"/>
+    </div>
+    <button type="button" class="btn btn-toolbar btn-lg btn-block" id="btnYorumYap">Yorum Yap</button>
+    <form asp-action="YorumEkle" asp-controller="Urun" style="display:none;" id="frmYorum" method="post" asp-route-id="@ViewContext.RouteData.Values["id"].ToString()">
+        <div class="form-group">
+            <label>Adı</label>
+            <input type="text" class="form-control" placeholder="Adı" asp-for="Adi" />
+            <small class="form-text text-muted"><span asp-validation-for="Adi"></span></small>
+        </div>
+        <div class="form-group">
+            <label>SoyAdı</label>
+            <input type="text" class="form-control" placeholder="SoyAdı" asp-for="Soyadi" />
+            <small class="form-text text-muted"><span asp-validation-for="Soyadi"></span></small>
+        </div>
+        <div class="form-group">
+            <label>E-Mail</label>
+            <input type="text" class="form-control" placeholder="E-Mail" asp-for="Mail" />
+            <small class="form-text text-muted"><span asp-validation-for="Mail"></span></small>
+        </div>
+        <div class="form-group">
+            <label>Mesaj</label>
+            <textarea class="form-control"rows="3" placeholder="Mesaj" asp-for="Mesaj"></textarea>
+            <small class="form-text text-muted"><span asp-validation-for="Mesaj"></span></small>
+        </div>
+        <button type="submit" class="btn btn-primary">Gönder</button>
+    </form>

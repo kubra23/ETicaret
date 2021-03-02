@@ -1,0 +1,11 @@
+﻿@model KategoriDuzenleVM
+
+    <form asp-action="Duzenle" asp-controller="Kategori" method="post">
+        <div class="form-group">
+            <label>Kategori Adı</label>
+            <input type="text" class="form-control" asp-for="KategoriAdi">
+            <small class="form-text text-muted"><span asp-validation-for="KategoriAdi"></span></small>
+        </div>
+        <button type="submit" class="btn btn-primary">Kategori Güncelle</button>
+    </form>
+

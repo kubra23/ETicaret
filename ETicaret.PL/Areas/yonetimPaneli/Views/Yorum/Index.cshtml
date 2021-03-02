@@ -1,0 +1,62 @@
+﻿@model List<YorumListeleVM>
+    <partial name="~/Areas/yonetimPaneli/Views/Partials/SonucMesajlari.cshtml" />
+<div class="row">
+    <div class="col-md-12">
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">Ürün</th>
+                    <th scope="col">Adı</th>
+                    <th scope="col">Soyadı</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Yorum</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var yorum in Model)
+                {
+                    <tr>
+                        <td>@yorum.Urun.UrunAdi</td>
+                        <td>@yorum.Adi</td>
+                        <td>@yorum.Soyadi</td>
+                        <td>@yorum.Email</td>
+                        <td>@yorum.Mesaj</td>
+                        <td>
+                            @if (yorum.Onay)
+                            {
+                                <img src="~/aktif.png" class="btnAktif-@yorum.Id" onclick="OnayDurumuDegistir(false,@yorum.Id, this)" />
+                                <img src="~/pasif.png" class="btnPasif-@yorum.Id" style="display:none" onclick="OnayDurumuDegistir(true,@yorum.Id, this)" />
+                            }
+                            else
+                            {
+                                <img src="~/aktif.png" class="btnAktif-@yorum.Id" style="display:none" onclick="OnayDurumuDegistir(false,@yorum.Id, this)" />
+                                <img src="~/pasif.png" class="btnPasif-@yorum.Id" onclick="OnayDurumuDegistir(true,@yorum.Id, this)" />
+                            }
+                        </td>
+                        <td>
+                            <a asp-action="Sil" asp-controller="Yorum" asp-route-id="@yorum.Id" class="btn btn-danger">Sil</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+        function OnayDurumuDegistir(durum, yorumId) {
+            $.get('@Url.Action("OnayDurumu","Yorum")?durum=' + durum + '&yorumId=' + yorumId, data => {
+                if (data) {
+                    if (durum) {
+                        $(".btnAktif-" + yorumId).css("display", "inline");
+                        $(".btnPasif-" + yorumId).css("display", "none");
+                    } else {
+                        $(".btnAktif-" + yorumId).css("display", "none");
+                        $(".btnPasif-" + yorumId).css("display", "inline");
+                    }
+                }
+            });
+        }
+</script>

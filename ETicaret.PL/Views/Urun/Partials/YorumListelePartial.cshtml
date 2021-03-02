@@ -1,0 +1,29 @@
+﻿@model ICollection<Yorum>
+@{ 
+    bool sonuc = Model.Any(y => y.Onay);
+}
+@if (!sonuc)
+{
+    <div class="card" style="margin-top:5px;">
+        <div class="card-body">
+            Ürüne dair herhangi bir yorum bulunmamaktadır.
+        </div>
+    </div>
+}
+@if (sonuc)
+{
+    foreach (var yorum in Model.Where(y=>y.Onay))
+    {
+       <div class="card" style="margin-top:5px;">
+           <div style="text-align:right;color:orange;font-size:12px;">
+               @yorum.Adi
+               @yorum.Soyadi
+           </div>
+           <div class="card-body">
+               @yorum.Mesaj
+           </div>
+       </div>
+
+    }
+}
+
